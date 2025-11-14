@@ -6,18 +6,14 @@ import maya.utils
 import maya.cmds as cmds
 
 # Logging setup
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-logger.propagate = False
-
-FORMAT = "[%(asctime)s][%(levelname)s][%(filename)s:%(lineno)d] %(message)s"
-
 handler = maya.utils.MayaGuiLogHandler()
-handler.setFormatter(logging.Formatter(FORMAT))
 handler.setLevel(logging.INFO)
+formatter = logging.Formatter("[%(asctime)s][%(levelname)s][%(filename)s:%(lineno)d] %(message)s")
+handler.setFormatter(formatter)
+logger = logging.getLogger(__name__)
 
-if not logger.handlers:
-    logger.addHandler(handler)
+logger.addHandler(handler)
+logger.propagate = False
 
 def main():
     logger.info("Starting script...")
