@@ -8,6 +8,7 @@ import maya.cmds as cmds
 # Logging setup
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+logger.propagate = False
 
 FORMAT = "[%(asctime)s][%(levelname)s][%(filename)s:%(lineno)d] %(message)s"
 
