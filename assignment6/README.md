@@ -18,7 +18,7 @@ The script uses the `ASSET` variable to:
    echo $ASSET
 3. **Navigate to your project directory** (ie.):
    ```bash
-   cd /c/Users/Kyle/Desktop/anim-435-2025-kjh346/ANIM-435-2025-kjh/assignment5/bin
+   cd /c/Users/Kyle/Desktop/anim-435-2025-kjh346/ANIM-435-2025-kjh/assignment6/bin
 4. **Run the script using Maya Standalone**:
    ```bash
    mayapy assignment6.py
