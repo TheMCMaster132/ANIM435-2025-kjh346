@@ -1,4 +1,7 @@
 import os
+import json
+import getpass
+from datetime import datetime
 import logging
 import maya.standalone
 maya.standalone.initialize()
@@ -14,6 +17,15 @@ logger = logging.getLogger(__name__)
 
 logger.addHandler(handler)
 logger.propagate = False
+
+def export_metadata(metadata, output_path):
+    # Writes metadata to a JSON file
+    try:
+        with open(output_path, "w") as f:
+            json.dump(metadata, f, indent=4)
+        logger.info(f"Metadata exported to: {output_path}")
+    except Exception as e:
+        logger.error(f"Failed to write metadata JSON: {e}")
 
 def main():
     logger.info("Starting script...")
@@ -48,6 +60,29 @@ def main():
     cmds.file(rename=scene_path)
     cmds.file(save=True)
     logger.info(f"Scene saved as: {scene_path}")
+
+    # Export metadata
+    metadata = {
+        "asset": asset_name,
+        "saved_scene": scene_path,
+        "user": getpass.getuser(),
+        "maya_scene_name": cmds.file(query=True, sceneName=True),
+        "export_time": datetime.now().isoformat(),
+        "maya_version": cmds.about(version=True),
+        "workspace": cmds.workspace(q=True, rd=True),
+        "environment_vars": {
+            "ASSET": os.getenv("ASSET"),
+            "HOME": os.getenv("HOME"),
+            "USER": os.getenv("USER"),
+        },
+        "objects_created": {
+            "group": asset_group,
+            "geometry": geo
+        }
+    }
+
+    metadata_path = os.path.join(current_dir, "metadata.json")
+    export_metadata(metadata, metadata_path)
 
     logger.info("Script finished successfully.")
 
